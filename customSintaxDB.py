@@ -28,9 +28,9 @@ def get_opt(argv=None):
     try:
         # Setup argument parser
         parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-        parser.add_argument('-l', '--list', type=str, help='File with the list of entry to search')
-        parser.add_argument('-o', '--output', type=str, help='Output File basename')
-        parser.add_argument('-g', '--gene', type=str, help='gene to search in entrez')
+        parser.add_argument('-l', '--list', type=str, required=True, help='File with the list of entry to search')
+        parser.add_argument('-o', '--output', type=str, required=True, help='Output File basename')
+        parser.add_argument('-g', '--gene', type=str, required=True, help='gene to search in entrez')
         entrez = parser.add_argument_group("Entrez - NCBI's E-utilities")
         entrez.add_argument('--email', type=str, default=None,
                             help=dedent('''\
