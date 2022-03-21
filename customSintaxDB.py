@@ -89,9 +89,9 @@ def get_taxa(mysp, flog):
 def main():
     args = get_opt()
     if args.email:
-        Entrez.email = args.email  # 'diego.micheletti@fmach.it'
+        Entrez.email = args.email
     if args.api_key:
-        Entrez.api_key = args.api_key  # '04e5431ea6cb77f7c5840c74929acde95e09'
+        Entrez.api_key = args.api_key
     if args.max_tries:
         Entrez.max_tries = args.max_tries
     if args.sleep_between_tries:
