@@ -101,7 +101,7 @@ def main():
         orgno,recno = 0, 0
         for i, mysp in enumerate(open(args.list)):
             orgno += 1
-            #if i % 10 == 0:
+            # if i % 10 == 0:
             #    print(i)
             mysp = mysp.strip()
             taxa = get_taxa(mysp, flog)
@@ -123,7 +123,7 @@ def main():
             for rec in gbrecs:
                 try:
                     if len(rec.seq) > 0:
-                        # print(mysp, rec, taxa)
+                        print(mysp, rec, taxa)
                         print(f">{rec.id};tax={taxa}\n{rec.seq}", file=fout)
                         recno += 1
                     else:
