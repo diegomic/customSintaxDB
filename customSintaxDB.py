@@ -90,8 +90,6 @@ def get_taxa(mysp, flog):
 
 def main():
     args = get_opt()
-    print(args)
-    return
     if args.email:
         Entrez.email = args.email
     if args.api_key:
@@ -112,7 +110,7 @@ def main():
             if not taxa:
                 # print(mysp, 'noTaxa', sep='\t', file=flog)
                 continue
-            field = '' if not args.field else f"[{args.field}]"
+            field = '' if not args.field or args.field in ('none','None') else f"[{args.field}]"
             #print(f"({args.gene} {db}) AND ({mysp} [orgn])",)
             handle_search = Entrez.esearch(db="nucleotide", retmax=1000,
                                            term=f'({args.gene} {field}) AND ("{mysp}" [orgn])',
@@ -130,7 +128,7 @@ def main():
             for rec in gbrecs:
                 try:
                     if len(rec.seq) > 0:
-                        print(mysp, rec, taxa)
+                        #print(mysp, rec, taxa)
                         print(f">{rec.id};tax={taxa}\n{rec.seq}", file=fout)
                         recno += 1
                     else:
