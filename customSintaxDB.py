@@ -70,9 +70,13 @@ def get_taxa(mysp, flog):
         handle_search.close()
         # print(record)
         handle = Entrez.efetch(db="taxonomy", id=record["IdList"], rettype="xml")
+        # print(handle)
         taxrec = Entrez.read(handle)
     except RuntimeError as e:
         print(mysp, e, sep='\t', file=flog)
+        return
+    except:
+        print(mysp, 'except', sep='\t', file=flog)
         return
     if len(taxrec) == 1:
         tax = taxrec[0]
@@ -90,6 +94,7 @@ def get_taxa(mysp, flog):
 
 def main():
     args = get_opt()
+    print(args)
     if args.email:
         Entrez.email = args.email
     if args.api_key:
@@ -104,20 +109,20 @@ def main():
         for i, mysp in enumerate(open(args.list)):
             orgno += 1
             # if i % 10 == 0:
-            #    print(i)
             mysp = mysp.strip()
+            #print(mysp)
             taxa = get_taxa(mysp, flog)
             if not taxa:
-                # print(mysp, 'noTaxa', sep='\t', file=flog)
+                print(mysp, 'noTaxa', sep='\t', file=flog)
                 continue
-            field = '' if not args.field or args.field in ('none','None') else f"[{args.field}]"
-            #print(f"({args.gene} {db}) AND ({mysp} [orgn])",)
+            field = '' if not args.field else f"[{args.field}]"
+            #qprint(f"({args.gene} {field}) AND ({mysp} [orgn])",)
             handle_search = Entrez.esearch(db="nucleotide", retmax=1000,
-                                           term=f'({args.gene} {field}) AND ("{mysp}" [orgn])',
+                                           term=f'({args.gene}) AND ("{mysp}" [orgn])',
                                            idtype="acc")
             record = Entrez.read(handle_search)
             handle_search.close()
-            #print(record)
+            print(record)
             if int(record['Count']) == 0:
                 # print(mysp)
                 print(mysp, 'recordCount==0', sep='\t', file=flog)
